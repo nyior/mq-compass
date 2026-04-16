@@ -3,11 +3,14 @@ from __future__ import annotations
 import os
 
 from fastapi import FastAPI, HTTPException
+from dotenv import load_dotenv
 
 from .crawler import SimpleCrawler
 from .queue import QueuePublisher
 from .storage import PageStorage
 
+
+load_dotenv()
 
 APP_TITLE = "MQ Compass Crawler"
 DB_PATH = os.getenv("CRAWLER_DB_PATH", "crawler.db")
@@ -31,7 +34,10 @@ def healthcheck() -> dict[str, str]:
 def crawl_once(max_pages: int = 50) -> dict:
     amqp_url = os.getenv("AMQP_URL")
     if not amqp_url:
-        raise HTTPException(status_code=500, detail="AMQP_URL is not configured")
+        raise HTTPException(
+            status_code=500,
+            detail="AMQP_URL is not configured",
+        )
 
     publisher = QueuePublisher(amqp_url=amqp_url, queue_name=QUEUE_NAME)
     crawler = SimpleCrawler(storage=storage, publisher=publisher)

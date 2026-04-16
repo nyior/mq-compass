@@ -40,18 +40,21 @@ pip install -r crawler/requirements.txt
 
 ## Configure CloudAMQP / LavinMQ
 
-Set your AMQP connection string:
+Create a repository-root `.env` file and add your CloudAMQP connection string:
 
-```bash
-export AMQP_URL="amqps://<user>:<password>@<host>/<vhost>"
+```dotenv
+AMQP_URL=amqps://<user>:<password>@<host>/<vhost>
 ```
 
 Optional settings:
 
-```bash
-export QUEUE_NAME="ingestion_jobs"
-export CRAWLER_DB_PATH="crawler.db"
+```dotenv
+QUEUE_NAME=ingestion_jobs
+CRAWLER_DB_PATH=crawler.db
 ```
+
+The `.env` file is loaded automatically when `crawler.main` 
+starts and is ignored by git so credentials are not committed.
 
 ## Run the API
 
