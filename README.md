@@ -5,7 +5,7 @@ MQ Compass is a demo RAG stack for a LavinMQ-focused docs assistant.
 ## Services
 
 - `crawler`: watches documentation/blog pages, detects content changes, stores metadata in SQLite, and sends ingestion jobs to LavinMQ.
-- `ingestion-pipeline`: consumes crawler jobs, creates chunks and embeddings, and writes records to Pinecone.
+- `worker`: consumes crawler jobs from LavinMQ, builds section-aware chunks with LangChain, embeds them, and writes records to Pinecone.
 - `retrieval-api`: receives user questions, retrieves relevant chunks, and returns an LLM-ready answer.
 - `chat-widget`: a pluggable bottom-right chat widget for docs and blog pages.
 
