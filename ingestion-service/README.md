@@ -28,7 +28,7 @@ pip install -r worker/requirements.txt
 
 ## Configure
 
-Create `.env` in the repo root:
+Create `.env` in the ingestion service directory:
 
 ```env
 # CloudAMQP / LavinMQ
