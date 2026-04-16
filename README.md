@@ -4,8 +4,8 @@ MQ Compass is a demo RAG stack for a LavinMQ-focused docs assistant.
 
 ## Services
 
-- `source-harvester`: fetches and normalizes knowledge from docs, blogs, forums, and internal support sources, then prepares jobs for LavinMQ.
-- `ingestion-pipeline`: consumes harvested jobs, creates chunks and embeddings, and writes records to Pinecone.
+- `crawler`: watches documentation/blog pages, detects content changes, stores metadata in SQLite, and sends ingestion jobs to LavinMQ.
+- `ingestion-pipeline`: consumes crawler jobs, creates chunks and embeddings, and writes records to Pinecone.
 - `retrieval-api`: receives user questions, retrieves relevant chunks, and returns an LLM-ready answer.
 - `chat-widget`: a pluggable bottom-right chat widget for docs and blog pages.
 
@@ -24,10 +24,10 @@ pip install -r requirements.txt
 Run a service:
 
 ```bash
-uvicorn app.main:app --reload --port 8101
+uvicorn crawler.main:app --reload --port 8101
 ```
 
-Use the correct directory for each service.
+Use the correct module path for each service.
 
 ### Chat widget
 
