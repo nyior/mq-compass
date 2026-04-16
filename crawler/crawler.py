@@ -13,7 +13,7 @@ from .storage import PageStorage
 
 
 SEED_URLS = [
-    "https://lavinmq.com/documentation//blog/",
+    "https://lavinmq.com/documentation",
     "https://lavinmq.com/blog",
 ]
 

@@ -62,25 +62,19 @@ starts and is ignored by git so credentials are not committed.
 uvicorn crawler.main:app --reload --port 8101
 ```
 
-## Use the API
+## Test the API
+Open the API docs UI:
 
-Run one crawl:
-
-```bash
-curl -X POST "http://127.0.0.1:8101/crawl?max_pages=30"
+```text
+http://127.0.0.1:8101/doc
 ```
 
-List stored pages:
+Use **Try it out** and **Execute** in the docs page to test:
 
-```bash
-curl "http://127.0.0.1:8101/pages"
-```
-
-View stats:
-
-```bash
-curl "http://127.0.0.1:8101/stats"
-```
+- `GET /health` - check the service is running.
+- `POST /crawl` - run one crawl; set `max_pages`, for example `30`.
+- `GET /pages` - list pages stored in SQLite.
+- `GET /stats` - view crawl/storage totals.
 
 ## Message format
 

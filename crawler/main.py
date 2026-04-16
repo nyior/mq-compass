@@ -20,6 +20,7 @@ app = FastAPI(
     title=APP_TITLE,
     description="Crawls LavinMQ docs/blog pages, tracks content changes, and queues updates.",
     version="0.1.0",
+    docs_url="/doc",
 )
 
 storage = PageStorage(db_path=DB_PATH)
