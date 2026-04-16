@@ -46,6 +46,11 @@ class SimpleCrawler:
     def _belongs_to_seed(url: str, seed_url: str) -> bool:
         return url == seed_url or url.startswith(f"{seed_url}/")
 
+    @staticmethod
+    def _source_type_from_seed(seed_url: str) -> str:
+        seed_path = urlparse(seed_url).path.strip("/")
+        return "blog" if seed_path.startswith("blog") else "docs"
+
     def run(self, max_pages: int = 50) -> CrawlResult:
         normalized_seeds = [self._normalize_url(url) for url in SEED_URLS]
         allowed_domains = {urlparse(url).netloc for url in normalized_seeds}
@@ -161,6 +166,7 @@ class SimpleCrawler:
                             "content_hash": page_hash,
                             "event": "page_updated",
                             "title": title,
+                            "source_type": self._source_type_from_seed(seed_url),
                         }
                         self.publisher.publish(payload)
                         self.storage.set_status(url, "queued")

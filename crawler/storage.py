@@ -7,7 +7,7 @@ from typing import Any
 
 
 class PageStorage:
-    def __init__(self, db_path: str = "crawl.db") -> None:
+    def __init__(self, db_path: str = "crawler.db") -> None:
         self.db_path = Path(db_path)
         self._initialize()
 
