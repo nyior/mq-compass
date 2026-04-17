@@ -12,6 +12,7 @@ class Settings:
     pinecone_index_name: str
     pinecone_namespace: str
     openai_embedding_model: str
+    # openai_embedding_dimensions: int
     http_timeout_seconds: float
     chunk_size: int
     chunk_overlap: int

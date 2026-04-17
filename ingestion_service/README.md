@@ -53,6 +53,9 @@ CHUNK_SIZE=900
 CHUNK_OVERLAP=120
 ```
 
+`OPENAI_EMBEDDING_DIMENSIONS` must match the Pinecone index dimension. This demo
+defaults it to `1024`; change it if you recreate the index with another dimension.
+
 ## Run
 
 From the repo root:
@@ -60,6 +63,16 @@ From the repo root:
 ```bash
 python -m worker.main
 ```
+
+For environments that require a web server/port binding, run the lightweight wrapper from
+the ingestion service directory:
+
+```bash
+cd ingestion-service
+PORT=8102 python server.py
+```
+
+It starts the ingestion worker in a background thread and exposes `GET /health`.
 
 The worker will:
 

@@ -1,11 +1,11 @@
 import logging
 
-from worker.config import load_settings
-from worker.consumer import QueueConsumer
-from worker.documents import DocumentBuilder
-from worker.parser import fetch_and_parse_page
-from worker.storage import PageStorage
-from worker.vector_store import VectorStoreClient
+from config import load_settings
+from consumer import QueueConsumer
+from documents import DocumentBuilder
+from parser import fetch_and_parse_page
+from storage import PageStorage
+from vector_store import VectorStoreClient
 
 
 logging.basicConfig(

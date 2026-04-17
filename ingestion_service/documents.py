@@ -3,7 +3,12 @@ from typing import List
 from langchain_core.documents import Document
 from langchain_text_splitters import HTMLHeaderTextSplitter, RecursiveCharacterTextSplitter
 
-from worker.parser import ParsedPage
+try:
+    from worker.parser import ParsedPage
+except ModuleNotFoundError as exc:
+    if exc.name != "worker":
+        raise
+    from parser import ParsedPage
 
 
 class DocumentBuilder:
