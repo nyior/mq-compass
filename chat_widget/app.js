@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://127.0.0.1:8203";
+const API_BASE_URL = "http://127.0.0.1:8103";
 
 const chatBody = document.getElementById("chat-body");
 const messagesEl = document.getElementById("messages");

@@ -12,17 +12,6 @@ A minimal browser chat widget demo for a Retrieval-Augmented Generation (RAG) AP
 
 You can serve this folder with any static file server.
 
-### Option 1: Python (no dependencies)
-
-```bash
-cd chat_widget
-python3 -m http.server 8301
-```
-
-Open: `http://127.0.0.1:8301`
-
-### Option 2: Node (already included in this folder)
-
 ```bash
 cd chat_widget
 npm run dev
