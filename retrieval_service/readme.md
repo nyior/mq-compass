@@ -13,6 +13,7 @@ retrieval_service/
   llm.py
   models.py
   config.py
+  .env.example
   requirements.txt
   readme.md
 ```
@@ -47,24 +48,39 @@ pip install -r retrieval_service/requirements.txt
 
 ### 2) Configure environment variables
 
-Required:
+This service uses `python-dotenv`, so local configuration can live in a `.env`
+file instead of being exported in every terminal session.
+
+Create a service-local `.env` file from the example:
 
 ```bash
-export OPENAI_API_KEY="your-openai-key"
-export PINECONE_API_KEY="your-pinecone-key"
-export PINECONE_INDEX_NAME="your-index-name"
+cp retrieval_service/.env.example retrieval_service/.env
+```
+
+Then edit `retrieval_service/.env`.
+
+Required:
+
+```dotenv
+OPENAI_API_KEY=your-openai-key
+PINECONE_API_KEY=your-pinecone-key
+PINECONE_INDEX_NAME=your-index-name
 ```
 
 Optional (defaults shown):
 
-```bash
-export PINECONE_NAMESPACE="mq-compass-demo"
-export OPENAI_EMBEDDING_MODEL="text-embedding-3-small"
-export OPENAI_CHAT_MODEL="gpt-4o-mini"
-export RETRIEVAL_TOP_K="4"
+```dotenv
+PINECONE_NAMESPACE=mq-compass-demo
+OPENAI_EMBEDDING_MODEL=text-embedding-3-small
+OPENAI_CHAT_MODEL=gpt-4o-mini
+RETRIEVAL_TOP_K=4
 ```
 
 > Important: `OPENAI_EMBEDDING_MODEL` should match ingestion service settings.
+
+The `.env` file is ignored by git so local credentials are not committed. Existing
+shell environment variables still work, and take precedence over values loaded
+from `.env`.
 
 ### 3) Run the API
 
@@ -88,27 +104,3 @@ uvicorn retrieval_service.main:app --reload --port 8103
 ```
 
 5. Click **Execute** and inspect the JSON response.
-
-### cURL example
-
-```bash
-curl -X POST "http://127.0.0.1:8103/ask" \
-  -H "Content-Type: application/json" \
-  -d '{"question":"Why are messages piling up?"}'
-```
-
-Expected shape:
-
-```json
-{
-  "answer": "...",
-  "sources": [
-    {
-      "title": "Consumers",
-      "url": "https://example.com/docs/consumers",
-      "source_type": "docs",
-      "section": "Acknowledgements"
-    }
-  ]
-}
-```
