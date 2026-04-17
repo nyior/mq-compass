@@ -1,0 +1,9 @@
+{
+  "name": "mq-compass-chat_widget",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Minimal browser-based RAG chat widget demo",
+  "scripts": {
+    "dev": "node server.js"
+  }
+}
