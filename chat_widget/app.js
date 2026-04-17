@@ -1,5 +1,6 @@
 const API_BASE_URL = "http://127.0.0.1:8103";
 
+const chatShellEl = document.getElementById("chat-shell");
 const chatBody = document.getElementById("chat-body");
 const messagesEl = document.getElementById("messages");
 const formEl = document.getElementById("chat-form");
@@ -11,7 +12,7 @@ let loadingMessageEl = null;
 function appendUserMessage(question) {
   const bubble = document.createElement("article");
   bubble.className =
-    "ml-auto max-w-[90%] rounded-2xl rounded-br-sm bg-sky-600 px-3 py-2 text-sm text-white sm:max-w-[85%]";
+    "ml-auto max-w-[90%] whitespace-pre-wrap break-words rounded-2xl rounded-br-sm bg-sky-600 px-3 py-2 text-sm text-white sm:max-w-[85%]";
   bubble.textContent = question;
   messagesEl.appendChild(bubble);
   scrollToBottom();
@@ -23,7 +24,7 @@ function appendAssistantMessage(answer, sources) {
     "max-w-[90%] rounded-2xl rounded-tl-sm border border-slate-200 bg-white px-3 py-3 text-sm text-slate-800 sm:max-w-[85%]";
 
   const answerEl = document.createElement("p");
-  answerEl.className = "whitespace-pre-wrap leading-relaxed text-slate-800";
+  answerEl.className = "whitespace-pre-wrap break-words leading-relaxed text-slate-800";
   answerEl.textContent = answer || "No answer returned.";
   wrapper.appendChild(answerEl);
 
@@ -108,8 +109,14 @@ function renderSources(sources) {
 }
 
 function autoResizeInput() {
+  const viewportHeight = window.visualViewport?.height || window.innerHeight;
+  const maxInputHeight = Math.max(176, Math.floor(viewportHeight * 0.5));
+
+  questionInputEl.style.setProperty("--chat-input-max-height", `${maxInputHeight}px`);
   questionInputEl.style.height = "auto";
-  questionInputEl.style.height = `${Math.min(questionInputEl.scrollHeight, 160)}px`;
+  questionInputEl.style.height = `${Math.min(questionInputEl.scrollHeight, maxInputHeight)}px`;
+  questionInputEl.style.overflowY = questionInputEl.scrollHeight > maxInputHeight ? "auto" : "hidden";
+  scrollToBottom();
 }
 
 function scrollToBottom() {
@@ -118,8 +125,10 @@ function scrollToBottom() {
 
 function toggleChat() {
   const isHidden = chatBody.classList.toggle("hidden");
+  chatShellEl.classList.toggle("is-expanded", !isHidden);
   toggleButtonEl.textContent = isHidden ? "Expand" : "Collapse";
   toggleButtonEl.setAttribute("aria-expanded", String(!isHidden));
+  autoResizeInput();
 }
 
 async function askQuestion(question) {
@@ -162,6 +171,7 @@ formEl.addEventListener("submit", async (event) => {
 });
 
 questionInputEl.addEventListener("input", autoResizeInput);
+window.addEventListener("resize", autoResizeInput);
 questionInputEl.addEventListener("keydown", (event) => {
   if (event.key === "Enter" && !event.shiftKey) {
     event.preventDefault();

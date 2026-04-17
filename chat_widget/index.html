@@ -17,8 +17,8 @@
       </p>
     </main>
 
-    <aside class="fixed inset-x-3 bottom-3 z-50 mx-auto w-auto max-w-md sm:inset-x-auto sm:right-5 sm:mx-0" aria-label="RAG chat widget">
-      <section id="chat-widget" class="flex max-h-[85vh] min-h-[4rem] flex-col overflow-hidden rounded-2xl border border-slate-300 bg-white shadow-2xl shadow-slate-900/20">
+    <aside id="chat-shell" class="chat-shell is-expanded" aria-label="RAG chat widget">
+      <section id="chat-widget" class="flex min-h-[4rem] flex-col overflow-hidden border border-slate-300 bg-white shadow-2xl shadow-slate-900/20">
         <header class="flex items-center justify-between gap-3 border-b border-slate-200 px-4 py-3 sm:px-5">
           <div>
             <h2 class="text-sm font-semibold text-slate-900 sm:text-base">Ask LavinMQ Assistant</h2>
@@ -29,8 +29,8 @@
           </button>
         </header>
 
-        <div id="chat-body" class="flex flex-1 flex-col">
-          <div id="messages" class="chat-scroll flex h-80 flex-col gap-3 overflow-y-auto bg-slate-50 px-3 py-3 sm:px-4">
+        <div id="chat-body" class="flex min-h-0 flex-1 flex-col">
+          <div id="messages" class="chat-scroll flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto bg-slate-50 px-3 py-3 sm:px-4">
             <article class="max-w-[90%] rounded-2xl rounded-tl-sm border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 sm:max-w-[85%]">
               Ask a question like “Why are messages piling up?” and I will query the retrieval API.
             </article>
@@ -39,7 +39,7 @@
           <form id="chat-form" class="border-t border-slate-200 bg-white p-3 sm:p-4">
             <label for="question-input" class="mb-2 block text-xs font-medium text-slate-500">Your question</label>
             <div class="flex items-end gap-2">
-              <textarea id="question-input" rows="1" class="max-h-40 min-h-[2.75rem] flex-1 resize-none rounded-xl border border-slate-300 px-3 py-2 text-sm text-slate-800 outline-none ring-sky-500 placeholder:text-slate-400 focus:ring" placeholder="Why are messages piling up?" required></textarea>
+              <textarea id="question-input" rows="1" class="chat-input min-h-[2.75rem] flex-1 resize-y rounded-xl border border-slate-300 px-3 py-2 text-sm text-slate-800 outline-none ring-sky-500 placeholder:text-slate-400 focus:ring" placeholder="Paste a question or stack trace..." required></textarea>
               <button id="send-button" type="submit" class="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-sky-600 text-white transition hover:bg-sky-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-500" aria-label="Send question">
                 <span aria-hidden="true">➤</span>
               </button>
