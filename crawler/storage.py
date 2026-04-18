@@ -3,7 +3,7 @@ from __future__ import annotations
 import sqlite3
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 
 class PageStorage:
@@ -29,7 +29,7 @@ class PageStorage:
                 """
             )
 
-    def get_page(self, url: str) -> dict[str, Any] | None:
+    def get_page(self, url: str) -> Optional[dict[str, Any]]:
         with self._connect() as conn:
             row = conn.execute("SELECT * FROM pages WHERE url = ?", (url,)).fetchone()
             return dict(row) if row else None

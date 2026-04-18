@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+from typing import Optional
 
 from fastapi import FastAPI, HTTPException
 from dotenv import load_dotenv
@@ -15,6 +16,7 @@ load_dotenv()
 APP_TITLE = "MQ Compass Crawler"
 DB_PATH = os.getenv("CRAWLER_DB_PATH", "crawler.db")
 QUEUE_NAME = os.getenv("QUEUE_NAME", "ingestion_jobs")
+SAFETY_TIMEOUT_ENV = "CRAWLER_SAFETY_TIMEOUT_SECONDS"
 
 app = FastAPI(
     title=APP_TITLE,
@@ -26,13 +28,32 @@ app = FastAPI(
 storage = PageStorage(db_path=DB_PATH)
 
 
+def get_safety_timeout_seconds() -> int:
+    raw_timeout = os.getenv(SAFETY_TIMEOUT_ENV, str(60 * 60))
+    try:
+        timeout = int(raw_timeout)
+    except ValueError as exc:
+        raise HTTPException(
+            status_code=500,
+            detail=f"{SAFETY_TIMEOUT_ENV} must be an integer number of seconds",
+        ) from exc
+
+    if timeout <= 0:
+        raise HTTPException(
+            status_code=500,
+            detail=f"{SAFETY_TIMEOUT_ENV} must be greater than zero",
+        )
+
+    return timeout
+
+
 @app.get("/health")
 def healthcheck() -> dict[str, str]:
     return {"status": "ok", "service": "crawler"}
 
 
 @app.post("/crawl")
-def crawl_once(max_pages: int = 50) -> dict:
+def crawl_once(max_pages: Optional[int] = None) -> dict:
     amqp_url = os.getenv("AMQP_URL")
     if not amqp_url:
         raise HTTPException(
@@ -41,7 +62,11 @@ def crawl_once(max_pages: int = 50) -> dict:
         )
 
     publisher = QueuePublisher(amqp_url=amqp_url, queue_name=QUEUE_NAME)
-    crawler = SimpleCrawler(storage=storage, publisher=publisher)
+    crawler = SimpleCrawler(
+        storage=storage,
+        publisher=publisher,
+        safety_timeout_seconds=get_safety_timeout_seconds(),
+    )
     result = crawler.run(max_pages=max_pages)
     return {
         "service": "crawler",

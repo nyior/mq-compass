@@ -51,7 +51,11 @@ Optional settings:
 ```dotenv
 QUEUE_NAME=ingestion_jobs
 CRAWLER_DB_PATH=crawler.db
+CRAWLER_SAFETY_TIMEOUT_SECONDS=3600
 ```
+
+`CRAWLER_SAFETY_TIMEOUT_SECONDS` is the maximum runtime for one crawl request.
+It defaults to `3600` seconds, or 60 minutes.
 
 The `.env` file is loaded automatically when `crawler.main` 
 starts and is ignored by git so credentials are not committed.
@@ -72,7 +76,7 @@ http://127.0.0.1:8101/doc
 Use **Try it out** and **Execute** in the docs page to test:
 
 - `GET /health` - check the service is running.
-- `POST /crawl` - run one crawl; set `max_pages`, for example `30`.
+- `POST /crawl` - run one crawl. Omit `max_pages` to crawl all reachable seed pages, or set a limit such as `30`. Crawls stop after `CRAWLER_SAFETY_TIMEOUT_SECONDS`.
 - `GET /pages` - list pages stored in SQLite.
 - `GET /stats` - view crawl/storage totals.
 
