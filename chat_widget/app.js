@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://127.0.0.1:8103";
+const API_BASE_URL = window.__MQ_COMPASS_CONFIG__?.apiBaseUrl || "/api";
 
 const chatShellEl = document.getElementById("chat-shell");
 const chatBody = document.getElementById("chat-body");

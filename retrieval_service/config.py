@@ -26,7 +26,7 @@ class Settings(BaseModel):
         return cls(
             openai_api_key=os.getenv("OPENAI_API_KEY", ""),
             pinecone_api_key=os.getenv("PINECONE_API_KEY", ""),
-            pinecone_index_name=os.getenv("PINECONE_INDEX_NAME", ""),
+            pinecone_index_name=os.getenv("PINECONE_INDEX_NAME", os.getenv("PINECONE_INDEX", "")),
             pinecone_namespace=os.getenv("PINECONE_NAMESPACE", "mq-compass-demo"),
             openai_embedding_model=os.getenv(
                 "OPENAI_EMBEDDING_MODEL", "text-embedding-3-small"
