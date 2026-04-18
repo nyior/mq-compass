@@ -109,6 +109,10 @@ function renderSources(sources) {
 }
 
 function autoResizeInput() {
+  if (chatBody.classList.contains("hidden")) {
+    return;
+  }
+
   const viewportHeight = window.visualViewport?.height || window.innerHeight;
   const maxInputHeight = Math.max(176, Math.floor(viewportHeight * 0.5));
 
@@ -123,12 +127,20 @@ function scrollToBottom() {
   messagesEl.scrollTop = messagesEl.scrollHeight;
 }
 
+function setChatExpanded(isExpanded) {
+  chatBody.classList.toggle("hidden", !isExpanded);
+  chatBody.classList.toggle("flex", isExpanded);
+  chatShellEl.classList.toggle("is-expanded", isExpanded);
+  toggleButtonEl.textContent = isExpanded ? "Collapse" : "Expand";
+  toggleButtonEl.setAttribute("aria-expanded", String(isExpanded));
+
+  if (isExpanded) {
+    autoResizeInput();
+  }
+}
+
 function toggleChat() {
-  const isHidden = chatBody.classList.toggle("hidden");
-  chatShellEl.classList.toggle("is-expanded", !isHidden);
-  toggleButtonEl.textContent = isHidden ? "Expand" : "Collapse";
-  toggleButtonEl.setAttribute("aria-expanded", String(!isHidden));
-  autoResizeInput();
+  setChatExpanded(chatBody.classList.contains("hidden"));
 }
 
 async function askQuestion(question) {
@@ -181,4 +193,4 @@ questionInputEl.addEventListener("keydown", (event) => {
 
 toggleButtonEl.addEventListener("click", toggleChat);
 
-autoResizeInput();
+setChatExpanded(false);
