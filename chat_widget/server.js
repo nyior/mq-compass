@@ -15,7 +15,7 @@ const mimeTypes = {
 
 http
   .createServer((req, res) => {
-    const requestPath = req.url === "/" ? "/public/index.html" : req.url;
+    const requestPath = req.url === "/" ? "/index.html" : req.url;
     const filePath = path.join(root, requestPath);
 
     fs.readFile(filePath, (error, data) => {
@@ -33,5 +33,5 @@ http
     });
   })
   .listen(port, host, () => {
-    console.log(`MQ Compass widget preview running at http://${host}:${port}`);
+    console.log(`chat_widget demo running at http://${host}:${port}`);
   });

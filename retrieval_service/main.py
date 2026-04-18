@@ -1,11 +1,13 @@
 import logging
 
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 
 from .config import Settings
 from .llm import AnswerGenerator
 from .models import AskRequest, AskResponse
 from .retrieval import Retriever, build_sources, format_context
+
 
 logging.basicConfig(
     level=logging.INFO,
@@ -19,6 +21,13 @@ app = FastAPI(
     version="0.1.0",
 )
 
+# Strong discourage wildcards in prod
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.on_event("startup")
 def startup() -> None:

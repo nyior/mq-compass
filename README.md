@@ -7,7 +7,7 @@ MQ Compass is a demo RAG stack for a LavinMQ-focused docs assistant.
 - `crawler`: watches documentation/blog pages, detects content changes, stores metadata in SQLite, and sends ingestion jobs to LavinMQ.
 - `ingestion-service`: consumes crawler jobs from LavinMQ, builds section-aware chunks with LangChain, embeds them, and writes records to Pinecone.
 - `retrieval_service`: receives user questions, retrieves relevant chunks, and returns a grounded answer plus source metadata.
-- `chat-widget`: a pluggable bottom-right chat widget for docs and blog pages.
+- `chat_widget`: a pluggable bottom-right chat widget for docs and blog pages.
 
 ## Quick start
 
@@ -32,7 +32,7 @@ Use the correct module path for each service.
 ### Chat widget
 
 ```bash
-cd chat-widget
+cd chat_widget
 npm run dev
 ```
 
