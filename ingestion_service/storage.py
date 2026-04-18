@@ -1,9 +1,11 @@
+from pathlib import Path
 import sqlite3
 
 
 class PageStorage:
     def __init__(self, sqlite_path: str) -> None:
         self.sqlite_path = sqlite_path
+        Path(self.sqlite_path).parent.mkdir(parents=True, exist_ok=True)
 
     def update_page_status(self, url: str, content_hash: str, status: str) -> None:
         with sqlite3.connect(self.sqlite_path) as conn:

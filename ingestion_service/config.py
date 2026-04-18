@@ -23,7 +23,7 @@ def load_settings() -> Settings:
     load_dotenv()
 
     amqp_url = os.getenv("AMQP_URL")
-    pinecone_index_name = os.getenv("PINECONE_INDEX_NAME")
+    pinecone_index_name = os.getenv("PINECONE_INDEX_NAME") or os.getenv("PINECONE_INDEX")
 
     if not amqp_url:
         raise ValueError("AMQP_URL is required")
@@ -33,7 +33,7 @@ def load_settings() -> Settings:
     return Settings(
         amqp_url=amqp_url,
         queue_name=os.getenv("INGESTION_QUEUE", "ingestion_jobs"),
-        sqlite_path=os.getenv("SQLITE_PATH", "crawler.db"),
+        sqlite_path=os.getenv("DATABASE_PATH", os.getenv("SQLITE_PATH", "crawler.db")),
         pinecone_index_name=pinecone_index_name,
         pinecone_namespace=os.getenv("PINECONE_NAMESPACE", "mq-compass-demo"),
         openai_embedding_model=os.getenv("OPENAI_EMBEDDING_MODEL", "text-embedding-3-small"),

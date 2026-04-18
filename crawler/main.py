@@ -14,7 +14,7 @@ from .storage import PageStorage
 load_dotenv()
 
 APP_TITLE = "MQ Compass Crawler"
-DB_PATH = os.getenv("CRAWLER_DB_PATH", "crawler.db")
+DB_PATH = os.getenv("DATABASE_PATH", os.getenv("CRAWLER_DB_PATH", "crawler.db"))
 QUEUE_NAME = os.getenv("QUEUE_NAME", "ingestion_jobs")
 SAFETY_TIMEOUT_ENV = "CRAWLER_SAFETY_TIMEOUT_SECONDS"
 
