@@ -31,8 +31,13 @@
 
         <div id="chat-body" class="hidden min-h-0 flex-1 flex-col">
           <div id="messages" class="chat-scroll flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto bg-slate-50 px-3 py-3 sm:px-4">
-            <article class="max-w-[90%] rounded-2xl rounded-tl-sm border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 sm:max-w-[85%]">
-              Ask a question like “Why are messages piling up?” and I will query the retrieval API.
+            <article class="max-w-[90%] rounded-2xl rounded-tl-sm border border-slate-200 bg-white px-3 py-3 text-sm text-slate-700 sm:max-w-[85%]">
+              <p class="font-medium text-slate-800">For better answers, ask specific LavinMQ or message queue questions.</p>
+              <ul class="mt-2 list-disc space-y-1 pl-4">
+                <li>Mention the symptom, feature, or error you are seeing.</li>
+                <li>Include relevant setup details, such as queue type, consumer count, acknowledgements, or prefetch.</li>
+                <li>Ask for checks or next steps, for example: “Why are messages piling up with manual acknowledgements?”</li>
+              </ul>
             </article>
           </div>
 

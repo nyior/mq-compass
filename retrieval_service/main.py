@@ -56,20 +56,15 @@ def ask(payload: AskRequest) -> AskResponse:
 
     try:
         chunks = app.state.retriever.get_relevant_chunks(question)
-        logger.info("Retrieved chunks: %s", len(chunks))
+        logger.info("Retrieved useful chunks: %s", len(chunks))
 
         sources = build_sources(chunks)
         logger.info("Selected source urls: %s", [source.url for source in sources])
 
         if not chunks:
-            logger.warning("No context retrieved. Returning safe fallback response.")
-            return AskResponse(
-                answer=(
-                    "I’m not sure based on the available context. "
-                    "Please review the linked sources or ask a more specific question."
-                ),
-                sources=sources,
-            )
+            logger.warning("No directly useful product docs retrieved. Generating general answer.")
+            answer = app.state.answer_generator.generate_general(question=question)
+            return AskResponse(answer=answer, sources=[])
 
         context = format_context(chunks)
         answer = app.state.answer_generator.generate(question=question, context=context)
