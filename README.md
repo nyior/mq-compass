@@ -35,12 +35,9 @@ npm install
 cd ..
 ```
 
-### Clone the repo and set your environment variables
-```bash
-git clone https://github.com/nyior/mq-compass.git
-cd mq-compass
-```
-Next, each service expects its own .env file. This is important for the multi-terminal 
+### Set your environment variables
+
+Each service expects its own .env file. This is important for the multi-terminal 
 setup, since every service runs independently and reads its own configuration.
 
 Create a `.env` file inside each of the following directories:
