@@ -15,29 +15,7 @@ Before running anything, create/get these external services and credentials:
 - Pinecone (for vector storage)
 - OpenAI (for embeddings + answer generation)
 
-Create a repo-root `.env` file:
 
-```bash
-cp .env.example .env
-```
-
-Fill at least:
-
-```env
-OPENAI_API_KEY=...
-PINECONE_API_KEY=...
-PINECONE_INDEX=...
-AMQP_URL=amqps://<user>:<password>@<host>/<vhost>
-BACKEND_API_URL=http://retrieval_service:8000
-DATABASE_PATH=/data/crawler.db
-```
-
-Notes:
-- In Docker, `BACKEND_API_URL` should stay `http://retrieval_service:8000` (service-to-service DNS).
-- For local multi-terminal runs, export `BACKEND_API_URL=http://127.0.0.1:8000` before starting `web_widget`.
-- `crawler` and `ingestion_worker` both use the same SQLite file path from `DATABASE_PATH`.
-
----
 
 ## Run locally (multi-terminal)
 
@@ -55,6 +33,55 @@ pip install -r retrieval_service/requirements.txt
 cd chat_widget
 npm install
 cd ..
+```
+
+### Clone the repo and set your environment variables
+```bash
+git clone https://github.com/nyior/mq-compass.git
+cd mq-compass
+```
+Next, each service expects its own .env file. This is important for the multi-terminal 
+setup, since every service runs independently and reads its own configuration.
+
+Create a `.env` file inside each of the following directories:
+
+```bash
+crawler/
+ingestion_service/
+retrieval_service/
+```
+
+The Crawlers’s `.env` file should contain:
+```bash
+AMQP_URL=amqpsxxxxx
+CRAWLER_SAFETY_TIMEOUT_SECONDS=36000
+```
+
+The Ingestion service’s `.env` file should contain:
+```bash
+AMQP_URL=amqpsxxx
+INGESTION_QUEUE=ingestion_jobs
+SQLITE_PATH=crawler.db
+OPENAI_API_KEY=sk-proj-xxxx
+OPENAI_EMBEDDING_MODEL=text-embedding-3-small
+PINECONE_API_KEY=xxx
+PINECONE_INDEX_NAME=lavinmq-docs
+PINECONE_NAMESPACE=mq-compass-demo
+HTTP_TIMEOUT_SECONDS=20
+CHUNK_SIZE=900
+CHUNK_OVERLAP=120
+```
+
+The Retrieval service’s `.env` file should contain:
+
+```bash
+PINECONE_API_KEY=xxx
+PINECONE_INDEX_NAME=lavinmq-docs
+PINECONE_NAMESPACE=mq-compass-demo
+OPENAI_API_KEY=xxx
+OPENAI_EMBEDDING_MODEL=text-embedding-3-small
+OPENAI_CHAT_MODEL=gpt-4o-mini
+RETRIEVAL_TOP_K=4
 ```
 
 ### Ingestion path (3 terminals)
