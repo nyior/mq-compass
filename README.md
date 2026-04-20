@@ -8,7 +8,7 @@ MQ Compass is a beginner-friendly RAG demo with four independent services:
 
 One-line mental model: **crawler discovers updates, ingestion indexes them, retrieval answers questions, widget calls retrieval**.
 
-## 0) Cloud resources (required first)
+## Setting up the cloud resources (required first)
 
 Before running anything, create/get these external services and credentials:
 - CloudAMQP (for queueing)
@@ -39,7 +39,7 @@ Notes:
 
 ---
 
-## 1) Run locally (multi-terminal)
+## Run locally (multi-terminal)
 
 ### Install deps
 
