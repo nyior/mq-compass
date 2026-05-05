@@ -1,6 +1,6 @@
 # MQ Compass
 
-[Project Demo](./lavinmq-compass-demo.mp4)
+<video src="./lavinmq-compass-demo.mp4" controls width="700"></video>
 
 MQ Compass is a beginner-friendly RAG demo with four independent services:
 - `crawler` (FastAPI)
