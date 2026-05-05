@@ -18,6 +18,7 @@ Before running anything, create/get these external services and credentials:
 
 
 ## Run locally (multi-terminal)
+Note: This demo has been tested on Python 3.9 to 3.12. Using newer versions may cause compatibility issues, so it’s best to stick within this range
 
 ### Install deps
 
